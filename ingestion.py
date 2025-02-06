@@ -57,7 +57,7 @@ def main():
         # Create table if not exists
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS raw_messages (
-                timestamp VARCHAR,
+                timestamp TIMESTAMP,
                 uuid VARCHAR PRIMARY KEY,
                 message VARCHAR
             )
