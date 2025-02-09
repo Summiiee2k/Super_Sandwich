@@ -1,0 +1,10 @@
+2025-02-09 20:48:20,727 - ERROR - Database error: Binder Error: Cannot compare values of type TIMESTAMP and type VARCHAR - an explicit cast is required
+LINE 4:         WHERE timestamp >= ?
+                                ^
+Traceback (most recent call last):
+  File "C:\Users\Anano\Desktop\Super_Sandwich\read.py", line 42, in fetch_processed_messages
+    cursor.execute(query, [date_str])
+duckdb.duckdb.BinderException: Binder Error: Cannot compare values of type TIMESTAMP and type VARCHAR - an explicit cast is required
+LINE 4:         WHERE timestamp >= ?
+                                ^
+2025-02-09 20:49:05,621 - INFO - Saved 0 messages to messages.json.
