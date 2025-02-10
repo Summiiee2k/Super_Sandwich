@@ -1,9 +1,7 @@
-2025-02-06 21:31:18,367 - ERROR - Usage: python ingestion.py <filename>
-2025-02-09 11:25:14,348 - ERROR - Usage: python ingestion.py <filename>
-2025-02-09 11:27:42,745 - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
-2025-02-09 11:27:42,746 - INFO - NumExpr defaulting to 8 threads.
-2025-02-09 11:27:43,444 - INFO - Processing complete:
-- Total rows processed: 25
+2025-02-09 22:32:39,240 - INFO - Note: NumExpr detected 16 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2025-02-09 22:32:39,240 - INFO - NumExpr defaulting to 8 threads.
+2025-02-09 22:32:39,629 - INFO - Processing complete:
+- Total rows processed: 20
 - Successfully inserted: -1
 - Invalid rows skipped: 0
-- Duplicate UUIDs skipped: 26
+- Duplicate UUIDs skipped: 21
