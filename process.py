@@ -11,7 +11,7 @@ CONFIG = {
     'batch_size': 500
 }
 
-# FIX: Added logging setup
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -23,6 +23,7 @@ logging.basicConfig(
 
 nlp = spacy.load("en_core_web_sm")
 
+#intorducing lemmas for 2 categories, added extra lemmas for extra accuracy :D
 FOOD_LEMMAS = {"sandwich", "bread", "meat", "cheese", "ham", "omelette", "food", "meal",
                "lettuce", "tomato", "mayo", "mustard", "avocado", "bacon", "turkey", 
                "chicken", "toast", "baguette", "wrap", "salad", "fries", "vegetarian", 
@@ -34,6 +35,8 @@ SERVICE_LEMMAS = {"waiter", "service", "table", "staff", "server", "host", "mana
                   "reservation", "cleanliness", "atmosphere", "ambiance", "complaint", 
                   "feedback", "experience"}
 
+
+#Now we create tables 
 def create_tables(conn):
     cursor = conn.cursor()
     cursor.execute('''
@@ -55,6 +58,8 @@ def create_tables(conn):
     conn.commit()
     cursor.close()
 
+
+#function to calculate how messages fit into categories by looking at the gathered lemmas
 def calculate_category(doc):
     food_score = 0
     service_score = 0
@@ -77,6 +82,8 @@ def calculate_category(doc):
     else:
         return "GENERAL"
 
+
+#main function
 def main():
     try:
         conn = duckdb.connect(CONFIG['db_path'])
@@ -100,7 +107,7 @@ def main():
         ''')
         unprocessed = cursor.fetchall()
 
-        # FIX: Batch processing with spaCy's nlp.pipe
+        #Batch processing with spaCy's nlp.pipe
         texts = [msg for (_, _, msg) in unprocessed]
         docs = nlp.pipe(texts)
 
@@ -109,7 +116,7 @@ def main():
         for doc, (ts, uuid, _) in zip(docs, unprocessed):
             category = calculate_category(doc)
             num_lemm = len([t.lemma_ for t in doc])
-            num_char = len(doc.text)  # More accurate than len(message)
+            num_char = len(doc.text)  
             
             batch.append((ts, uuid, doc.text, category, num_lemm, num_char))
             processed_uuids.append(uuid)
@@ -129,7 +136,7 @@ def main():
             ''', batch)
             conn.commit()
 
-        # FIX: Update ALL processed UUIDs in proc_log
+        
         cursor.executemany('''
             UPDATE proc_log 
             SET proc_time = CURRENT_TIMESTAMP 

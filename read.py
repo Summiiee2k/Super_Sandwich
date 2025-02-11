@@ -53,11 +53,11 @@ def save_to_json(messages):
         "messages": [
             {
                 "uuid": msg[0],
-                "timestamp": msg[1].isoformat(),  # FIX: Convert datetime to string
+                "timestamp": msg[1].isoformat(),  
                 "message": msg[2],
                 "category": msg[3],
                 "num_lemm": msg[4],
-                "num_char": msg[5]  # FIX: Corrected field name
+                "num_char": msg[5]  
             }
             for msg in messages
         ]
