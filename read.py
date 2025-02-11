@@ -32,16 +32,14 @@ def fetch_processed_messages(date_str):
         conn = duckdb.connect(CONFIG['db_path'])
         cursor = conn.cursor()
 
-        query = """
-        SELECT uuid, timestamp, message, category, num_lemm, num_char
-        FROM proc_messages
-        WHERE timestamp >= CAST(? AS TIMESTAMP)
-        ORDER BY timestamp ASC
-        """
-
-        cursor.execute(query, [date_str])
+        cursor.execute('''
+            SELECT uuid, timestamp, message, category, num_lemm, num_char
+            FROM proc_messages
+            WHERE timestamp >= CAST(? AS TIMESTAMP)
+            ORDER BY timestamp ASC
+        ''', [date_str])
+        
         messages = cursor.fetchall()
-
         conn.close()
         return messages
     
@@ -55,11 +53,11 @@ def save_to_json(messages):
         "messages": [
             {
                 "uuid": msg[0],
-                "timestamp": msg[1],
+                "timestamp": msg[1].isoformat(),  # FIX: Convert datetime to string
                 "message": msg[2],
                 "category": msg[3],
                 "num_lemm": msg[4],
-                "num_chars": msg[5]
+                "num_char": msg[5]  # FIX: Corrected field name
             }
             for msg in messages
         ]
@@ -77,7 +75,6 @@ def main():
     
     date_str = sys.argv[1]
     validate_date(date_str)
-
     messages = fetch_processed_messages(date_str)
     save_to_json(messages)
 
